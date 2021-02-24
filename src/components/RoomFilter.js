@@ -1,14 +1,14 @@
 import React from "react";
 import { useContext } from "react";
 import { RoomContext } from "../context";
-import Title from "../components/Title";
-
+import Title from "./Title";
 // get all unique values
 const getUnique = (items, value) => {
   return [...new Set(items.map((item) => item[value]))];
 };
 
-export default function RoomFilter({ rooms }) {
+const RoomsFilter = ({ rooms }) => {
+  // react hooks
   const context = useContext(RoomContext);
   const {
     handleChange,
@@ -23,55 +23,50 @@ export default function RoomFilter({ rooms }) {
     pets,
   } = context;
 
-  // get unique room types
+  // get unique types
   let types = getUnique(rooms, "type");
   // add all
   types = ["all", ...types];
   // map to jsx
-  types = types.map((item, index) => {
-    return (
-      <option value={item} key={index}>
-        {item}
-      </option>
-    );
-  });
-
-  // get capacity
+  types = types.map((item, index) => (
+    <option key={index} value={item}>
+      {item}
+    </option>
+  ));
+  // get unique capacity
   let people = getUnique(rooms, "capacity");
-  // map to jsx
   people = people.map((item, index) => (
     <option key={index} value={item}>
       {item}
     </option>
   ));
-
   return (
     <section className="filter-container">
       <Title title="search rooms" />
       <form className="filter-form">
         {/* select type */}
         <div className="form-group">
-          <label htmlFor="type"> room type</label>
+          <label htmlFor="type">room type</label>
           <select
             name="type"
             id="type"
-            value={type}
-            className="form-control"
             onChange={handleChange}
+            className="form-control"
+            value={type}
           >
             {types}
           </select>
         </div>
-        {/* end select type */}
-        {/* guests */}
+        {/* end of select type */}
+        {/* guests  */}
         <div className="form-group">
-          <label htmlFor="capacity"> guests</label>
+          <label htmlFor="capacity">Guests</label>
           <select
             name="capacity"
             id="capacity"
-            value={capacity}
-            className="form-control"
             onChange={handleChange}
+            className="form-control"
+            value={capacity}
           >
             {people}
           </select>
@@ -93,7 +88,7 @@ export default function RoomFilter({ rooms }) {
         </div>
         {/* end of room price*/}
         {/* size */}
-        {/* <div className="form-group">
+        <div className="form-group">
           <label htmlFor="price">room size </label>
           <div className="size-inputs">
             <input
@@ -111,8 +106,8 @@ export default function RoomFilter({ rooms }) {
               className="size-input"
             />
           </div>
-        </div> */}
-        {/* end of size */}
+        </div>
+        {/* end of select type */}
         {/* extras */}
         <div className="form-group">
           <div className="single-extra">
@@ -139,4 +134,6 @@ export default function RoomFilter({ rooms }) {
       </form>
     </section>
   );
-}
+};
+
+export default RoomsFilter;
